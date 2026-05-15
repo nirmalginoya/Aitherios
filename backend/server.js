@@ -10,13 +10,18 @@ const startServer = async () => {
     console.log('Database connected successfully.');
     
     // Sync models
-    await sequelize.sync(); 
+    try {
+      await sequelize.sync(); 
+      console.log('Database synced successfully.');
+    } catch (syncError) {
+      console.error('Database sync failed, but starting server anyway:', syncError);
+    }
 
     app.listen(PORT, () => {
       console.log(`Server is running on port ${PORT}`);
     });
   } catch (error) {
-    console.error('Unable to connect to the database:', error);
+    console.error('CRITICAL: Unable to start server:', error);
   }
 };
 
