@@ -1,7 +1,7 @@
-﻿import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useStore } from "../context/StoreContext";
-import { PRODUCTS } from "../lib/mockData";
+import { products as productApi } from "../lib/api";
 
 const MOCK_ORDERS = [
   { id: "AT-10241", date: "2025.11.12", total: 245, status: "Delivered", items: 2 },
@@ -14,7 +14,25 @@ const TABS = ["Overview", "Orders", "Addresses", "Settings"];
 const Account = () => {
   const { user, logout, wishlist } = useStore();
   const [tab, setTab] = useState("Overview");
+  const [recentProducts, setRecentProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
   const nav = useNavigate();
+
+  useEffect(() => {
+    if (user) {
+      const fetchRecent = async () => {
+        try {
+          const res = await productApi.getAll();
+          setRecentProducts(res.data.slice(0, 3));
+        } catch (err) {
+          console.error("Failed to fetch account products", err);
+        } finally {
+          setLoading(false);
+        }
+      };
+      fetchRecent();
+    }
+  }, [user]);
 
   if (!user) {
     return (
@@ -62,9 +80,13 @@ const Account = () => {
                 <p className="font-mono-t text-[11px] uppercase tracking-[0.25em] text-[#A3A3A3]">Recent</p>
                 <h3 className="font-display text-3xl uppercase mt-2">Latest Order</h3>
                 <div className="mt-6 flex flex-wrap items-center gap-4">
-                  {PRODUCTS.slice(0, 3).map((p) => (
-                    <img key={p.id} src={p.images[0]} className="h-24 w-20 object-cover" />
-                  ))}
+                  {loading ? (
+                    <div className="h-24 w-20 bg-[#121212] animate-pulse" />
+                  ) : (
+                    recentProducts.map((p) => (
+                      <img key={p.id} src={p.images[0]} className="h-24 w-20 object-cover" />
+                    ))
+                  )}
                   <Link to="/shop" className="btn-primary ml-auto">Shop again</Link>
                 </div>
               </div>
