@@ -4,7 +4,7 @@ import { useStore } from "../context/StoreContext";
 
 const Signup = () => {
   const [data, setData] = useState({ email: "", name: "", pwd: "" });
-  const { login } = useStore();
+  const { register } = useStore();
   const nav = useNavigate();
   const set = (k) => (e) => setData((d) => ({ ...d, [k]: e.target.value }));
 
@@ -12,8 +12,16 @@ const Signup = () => {
     e.preventDefault();
     if (!data.email || !data.pwd) return;
     try {
-      // In a real flow, we'd call an auth.signup(data) here
-      await login({ email: data.email, password: data.pwd, name: data.name });
+      const nameParts = data.name.trim().split(" ");
+      const firstName = nameParts[0] || "User";
+      const lastName = nameParts.slice(1).join(" ") || "Member";
+      
+      await register({ 
+        email: data.email, 
+        password: data.pwd, 
+        firstName, 
+        lastName 
+      });
       nav("/account");
     } catch (err) {
       alert("Signup failed. Try again.");

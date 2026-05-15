@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
+import { auth } from "../lib/api";
 
 const StoreContext = createContext(null);
 
@@ -45,18 +46,26 @@ export const StoreProvider = ({ children }) => {
 
   const login = async (credentials) => {
     try {
-      // In a real scenario, this would be:
-      // const res = await auth.login(credentials);
-      // setUser(res.data);
-      // For now, keeping the mock structure but making it async to match real API flow
-      const mockUser = { email: credentials.email, name: credentials.email.split("@")[0].toUpperCase(), token: "mock-jwt-token" };
-      setUser(mockUser);
-      return mockUser;
+      const res = await auth.login(credentials);
+      setUser(res.data);
+      return res.data;
     } catch (err) {
       console.error("Login failed", err);
       throw err;
     }
   };
+
+  const register = async (userData) => {
+    try {
+      const res = await auth.register(userData);
+      setUser(res.data);
+      return res.data;
+    } catch (err) {
+      console.error("Registration failed", err);
+      throw err;
+    }
+  };
+
   const logout = () => {
     setUser(null);
     localStorage.removeItem(KEY_USER);
@@ -75,7 +84,7 @@ export const StoreProvider = ({ children }) => {
       value={{
         cart, wishlist, user, cartOpen, setCartOpen, searchOpen, setSearchOpen,
         addToCart, removeFromCart, updateQty, clearCart,
-        toggleWishlist, login, logout, totals,
+        toggleWishlist, login, register, logout, totals,
       }}
     >
       {children}

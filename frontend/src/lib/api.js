@@ -28,7 +28,7 @@ export const drops = {
 
 export const auth = {
   login: (credentials) => API.post("/auth/login", credentials),
-  signup: (userData) => API.post("/auth/signup", userData),
+  register: (userData) => API.post("/auth/register", userData),
   me: () => API.get("/auth/me"),
 };
 
