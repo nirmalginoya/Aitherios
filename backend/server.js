@@ -9,10 +9,10 @@ const startServer = async () => {
     await sequelize.authenticate();
     console.log('Database connected successfully.');
     
-    // Sync models
+    // Sync models - TEMPORARY FORCE TRUE TO RESET ID TYPE
     try {
-      await sequelize.sync(); 
-      console.log('Database synced successfully.');
+      await sequelize.sync({ force: true }); 
+      console.log('Database synced successfully (FORCED).');
     } catch (syncError) {
       console.error('Database sync failed, but starting server anyway:', syncError);
     }
