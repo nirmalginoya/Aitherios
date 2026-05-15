@@ -9,11 +9,11 @@ module.exports = {
     dialect: "mysql"
   },
   production: {
-    username: process.env.PROD_DB_USER,
-    password: process.env.PROD_DB_PASS,
-    database: process.env.PROD_DB_NAME,
-    host: process.env.PROD_DB_HOST,
-    port: process.env.PROD_DB_PORT,
+    username: process.env.PROD_DB_USER || process.env.DB_USER,
+    password: process.env.PROD_DB_PASS || process.env.DB_PASS,
+    database: process.env.PROD_DB_NAME || process.env.DB_NAME,
+    host: process.env.PROD_DB_HOST || process.env.DB_HOST,
+    port: process.env.PROD_DB_PORT || process.env.DB_PORT || 3306,
     dialect: "mysql",
     dialectOptions: {
       ssl: {
