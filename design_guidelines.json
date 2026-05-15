@@ -1,0 +1,111 @@
+{
+  "project_name": "AITHERIOS",
+  "domain": "E-commerce (Streetwear/Techwear)",
+  "archetype": "Archetype 4/5 Hybrid - Dark Brutalist Streetwear",
+  "theme": "dark",
+  "instructions_to_main_agent": [
+    "Design a high-end streetwear e-commerce frontend named 'AITHERIOS'. Use deep blacks (Obsidian) and bold red accents.",
+    "Implement ultra-heavy animations: framer-motion page transitions, custom cursors (oversized dot with inversion), scroll-triggered reveals, parallax effects, and marquee/ticker tapes.",
+    "Typography: Use a heavy display sans-serif (e.g., Anton or Bebas Neue) for headlines. Use Space Grotesk for body text and mono/tech elements. Do NOT use Inter or Roboto.",
+    "Build brutalist layouts: Sharp edges (rounded-none), thick borders (1px solid #262626), raw editorial grids, and apply grain/glitch textures.",
+    "Add 'data-testid' to ALL interactive elements for automated testing.",
+    "Mock all backend data locally (e-commerce catalog, user profile, cart state). No real backend is needed.",
+    "Implement these pages: Home, Shop/Collection (with filters), Product Detail (gallery, zoom, variants), Cart Drawer/Page, Checkout UI (multi-step), Lookbook, Login/Signup, Account (orders, wishlist), Wishlist, Search Overlay, 404, Drops/Collections.",
+    "Use standard HTML + Tailwind for marketing/home layouts. Heavily customize Shadcn components (strip out soft Vercel look, make them sharp and brutalist) for forms, selects, and dialogs.",
+    "Ensure 'Lenis' is used for smooth momentum scrolling to achieve a premium feel.",
+    "Avoid default soft shadows. Use hard dropshadows or purely flat layered borders."
+  ],
+  "colors": {
+    "background": "#0A0A0A",
+    "surface": "#121212",
+    "primary": "#FF0000",
+    "primary_hover": "#DC2626",
+    "text_primary": "#FFFFFF",
+    "text_secondary": "#A3A3A3",
+    "border": "#262626",
+    "accent": "#FF3B30",
+    "error": "#FF0000",
+    "success": "#34C759"
+  },
+  "typography": {
+    "heading_font": "Anton, sans-serif",
+    "body_font": "Space Grotesk, sans-serif",
+    "mono_font": "JetBrains Mono, monospace"
+  },
+  "spacing_and_layout": {
+    "philosophy": "Generous Spacing, Asymmetric Bento Grids, Mobile-First. High visual tension.",
+    "container_padding": "p-6 md:p-12",
+    "gap_strategy": "gap-8 md:gap-16",
+    "border_radius": "rounded-none"
+  },
+  "motion_and_interactions": {
+    "cursor": "Custom oversized dot cursor with blending-mode difference.",
+    "page_transition": "Framer Motion slide-up with opacity fade.",
+    "scroll": "Lenis smooth scroll mandatory.",
+    "hover_effects": "High-contrast text color shift, sharp 1px border highlights, slight scale-up.",
+    "marquees": "Slow moving editorial ribbon with tracking-wide uppercase text."
+  },
+  "component_guidelines": {
+    "buttons": "Sharp corners (rounded-none), thick borders, hover fills with solid red. High contrast.",
+    "cards": "Cardless or 1px solid border (#262626), flat background, no soft shadows.",
+    "navigation": "Sticky, glassmorphism (bg-black/60 backdrop-blur-xl) or solid black with bottom border. Must include mega-menu or clean dropdowns for Shop/Lookbook.",
+    "inputs": "Flat, bottom border only or sharp 1px solid borders. No rounded corners."
+  },
+  "image_urls": {
+    "hero": [
+      {
+        "url": "https://static.prod-images.emergentagent.com/jobs/26a36313-2740-4e70-83dd-9e41e39ac3a9/images/43e52943e50bf42a07a2701952455f614a7d35e5b526a5d537bcee1981fcd07c.png",
+        "description": "Hero section streetwear model, urban industrial, moody red lighting",
+        "category": "hero"
+      }
+    ],
+    "lookbook": [
+      {
+        "url": "https://static.prod-images.emergentagent.com/jobs/26a36313-2740-4e70-83dd-9e41e39ac3a9/images/8a8a8b284b03872cf39e957dbcdaa5a0a03a29fccd340766f832ff9592132a01.png",
+        "description": "Lookbook model walking down brutalist hallway",
+        "category": "lookbook"
+      },
+      {
+        "url": "https://images.pexels.com/photos/16376546/pexels-photo-16376546.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+        "description": "Stylish streetwear woman on city sidewalk",
+        "category": "lookbook"
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1722625957003-4f1f1f6942e3?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1NzB8MHwxfHNlYXJjaHw0fHxzdHJlZXR3ZWFyJTIwbW9kZWx8ZW58MHx8fHwxNzc4ODM2NjcxfDA&ixlib=rb-4.1.0&q=85",
+        "description": "Man standing in front of white wall streetwear",
+        "category": "lookbook"
+      }
+    ],
+    "products": [
+      {
+        "url": "https://static.prod-images.emergentagent.com/jobs/26a36313-2740-4e70-83dd-9e41e39ac3a9/images/c9c497402ec83a8028c675e0fc7fb8c8dc9cb8e9949148c952bbb25e60880683.png",
+        "description": "Premium heavy black oversized hoodie",
+        "category": "product_mockup",
+        "name": "VOID HOODIE",
+        "price": "$120"
+      },
+      {
+        "url": "https://static.prod-images.emergentagent.com/jobs/26a36313-2740-4e70-83dd-9e41e39ac3a9/images/583c5749f89d5072c905062772e98cc7e478ccfc26f0c8c854b0db54b6f3ecfb.png",
+        "description": "Vintage washed black oversized t-shirt with red graphic",
+        "category": "product_mockup",
+        "name": "BLOODLINE TEE",
+        "price": "$65"
+      },
+      {
+        "url": "https://static.prod-images.emergentagent.com/jobs/26a36313-2740-4e70-83dd-9e41e39ac3a9/images/5b48c7b476701500284ee42b20df6ce1b462bf0032ab9c5fa91b7fc3b20ea10b.png",
+        "description": "Black techwear cargo pants with multiple pockets",
+        "category": "product_mockup",
+        "name": "TACTICAL CARGO V2",
+        "price": "$180"
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1680292783974-a9a336c10366?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1NjZ8MHwxfHNlYXJjaHwxfHxibGFjayUyMGhvb2RpZXxlbnwwfHx8fDE3Nzg4MzY2NzF8MA&ixlib=rb-4.1.0&q=85",
+        "description": "Black hoodie hanging",
+        "category": "product_mockup",
+        "name": "ESSENTIAL HOODIE",
+        "price": "$90"
+      }
+    ]
+  }
+}
+
