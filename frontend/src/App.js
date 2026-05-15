@@ -1,4 +1,4 @@
-﻿import React from "react";
+import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { StoreProvider } from "./context/StoreContext";
 import Layout from "./components/Layout";
@@ -14,11 +14,13 @@ import Account from "./pages/Account";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import NotFound from "./pages/NotFound";
+import { Toaster } from "sonner";
 import "./App.css";
 
 function App() {
   return (
     <StoreProvider>
+      <Toaster position="top-right" expand={false} richColors theme="dark" />
       <BrowserRouter>
         <Routes>
           <Route element={<Layout />}>

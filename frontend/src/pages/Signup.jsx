@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useStore } from "../context/StoreContext";
+import { toast } from "sonner";
 
 const Signup = () => {
   const [data, setData] = useState({ email: "", name: "", pwd: "" });
@@ -10,21 +11,28 @@ const Signup = () => {
 
   const submit = async (e) => {
     e.preventDefault();
-    if (!data.email || !data.pwd) return;
+    if (!data.email || !data.pwd) {
+      toast.error("Please fill in all fields");
+      return;
+    }
     try {
       const nameParts = data.name.trim().split(" ");
       const firstName = nameParts[0] || "User";
       const lastName = nameParts.slice(1).join(" ") || "Member";
       
-      await register({ 
+      const res = await register({ 
         email: data.email, 
         password: data.pwd, 
         firstName, 
         lastName 
       });
-      nav("/account");
+
+      if (res) {
+        toast.success("Welcome to Aitherios!");
+        nav("/account");
+      }
     } catch (err) {
-      alert("Signup failed. Try again.");
+      toast.error(err.response?.data?.message || "Signup failed. Try again.");
     }
   };
 

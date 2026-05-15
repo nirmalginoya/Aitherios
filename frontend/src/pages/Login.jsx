@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useStore } from "../context/StoreContext";
+import { toast } from "sonner";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -10,12 +11,18 @@ const Login = () => {
 
   const submit = async (e) => {
     e.preventDefault();
-    if (!email || !pwd) return;
+    if (!email || !pwd) {
+      toast.error("Please enter email and password");
+      return;
+    }
     try {
-      await login({ email, password: pwd });
-      nav("/account");
+      const res = await login({ email, password: pwd });
+      if (res) {
+        toast.success("Signed in successfully");
+        nav("/account");
+      }
     } catch (err) {
-      alert("Invalid credentials. Try again.");
+      toast.error(err.response?.data?.message || "Invalid credentials. Try again.");
     }
   };
 
