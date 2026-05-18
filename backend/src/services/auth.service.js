@@ -9,7 +9,7 @@ const buildToken = (user) => jwt.sign(
 );
 
 const safeUser = (user) => ({
-  id: user.id, email: user.email, firstName: user.firstName, lastName: user.lastName, role: user.role
+  id: user.id, email: user.email, firstName: user.firstName, lastName: user.lastName, role: user.role, createdAt: user.createdAt
 });
 
 const register = async (userData) => {
