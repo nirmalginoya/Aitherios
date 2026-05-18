@@ -3,11 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useStore } from "../context/StoreContext";
 import { products as productApi } from "../lib/api";
 
-const MOCK_ORDERS = [
-  { id: "AT-10241", date: "2025.11.12", total: 245, status: "Delivered", items: 2 },
-  { id: "AT-09877", date: "2025.10.04", total: 180, status: "Delivered", items: 1 },
-  { id: "AT-09032", date: "2025.07.21", total: 410, status: "Delivered", items: 4 },
-];
+// Removed MOCK_ORDERS
 
 const TABS = ["Overview", "Orders", "Addresses", "Settings"];
 
@@ -68,14 +64,21 @@ const Account = () => {
             className="w-full text-left px-4 py-3 font-mono-t text-[11px] uppercase tracking-[0.22em] border border-[#262626] text-[#A3A3A3] hover:text-[#FF0000] hover:border-[#FF0000] mt-6"
             data-testid="account-logout"
           >Log Out</button>
+          {user.role === 'admin' && (
+            <button
+              onClick={() => nav("/admin")}
+              className="w-full text-left px-4 py-3 font-mono-t text-[11px] uppercase tracking-[0.22em] border border-[#262626] text-purple-400 hover:text-white hover:border-purple-400 mt-2"
+              data-testid="account-admin"
+            >Admin Panel</button>
+          )}
         </aside>
 
         <div>
           {tab === "Overview" && (
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <Card label="Orders" value={MOCK_ORDERS.length} />
+              <Card label="Orders" value={user.orders?.length || 0} />
               <Card label="Wishlist" value={wishlist.length} />
-              <Card label="Member Since" value={new Date(user.joined).getFullYear()} />
+              <Card label="Member Since" value={new Date(user.createdAt || Date.now()).getFullYear()} />
               <div className="md:col-span-3 border border-[#262626] p-8">
                 <p className="font-mono-t text-[11px] uppercase tracking-[0.25em] text-[#A3A3A3]">Recent</p>
                 <h3 className="font-display text-3xl uppercase mt-2">Latest Order</h3>
@@ -97,15 +100,21 @@ const Account = () => {
               <div className="grid grid-cols-5 px-6 py-4 font-mono-t text-[11px] uppercase tracking-[0.22em] text-[#A3A3A3] border-b border-[#262626]">
                 <span>Order</span><span>Date</span><span>Items</span><span>Total</span><span>Status</span>
               </div>
-              {MOCK_ORDERS.map((o) => (
-                <div key={o.id} className="grid grid-cols-5 px-6 py-5 border-b border-[#262626] text-sm" data-testid={`order-${o.id}`}>
-                  <span className="font-mono-t">{o.id}</span>
-                  <span className="text-[#A3A3A3]">{o.date}</span>
-                  <span>{o.items}</span>
-                  <span className="font-mono-t">${o.total}</span>
-                  <span className="text-[#FF0000] font-mono-t text-[11px] uppercase tracking-[0.22em]">{o.status}</span>
+              {(!user.orders || user.orders.length === 0) ? (
+                <div className="px-6 py-12 text-center text-[#A3A3A3] text-sm">
+                  You haven't placed any orders yet.
                 </div>
-              ))}
+              ) : (
+                user.orders.map((o) => (
+                  <div key={o.id} className="grid grid-cols-5 px-6 py-5 border-b border-[#262626] text-sm" data-testid={`order-${o.id}`}>
+                    <span className="font-mono-t">{o.id}</span>
+                    <span className="text-[#A3A3A3]">{new Date(o.createdAt).toLocaleDateString()}</span>
+                    <span>{o.items?.length || 0}</span>
+                    <span className="font-mono-t">${o.total?.toFixed(2)}</span>
+                    <span className="text-[#FF0000] font-mono-t text-[11px] uppercase tracking-[0.22em]">{o.status}</span>
+                  </div>
+                ))
+              )}
             </div>
           )}
           {tab === "Addresses" && (
