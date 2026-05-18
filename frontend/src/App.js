@@ -12,6 +12,7 @@ import Layout from "./components/Layout";
 
 // Admin Layout
 import AdminLayout from "./components/AdminLayout";
+import AdminRoute from "./components/AdminRoute";
 
 // Lazy-loaded Pages
 const Home = React.lazy(() => import("./pages/Home"));
@@ -95,11 +96,13 @@ function App() {
                   </Route>
 
                   {/* Admin Panel Routes */}
-                  <Route path="/admin" element={<AdminLayout />}>
-                    <Route index element={<AdminDashboard />} />
-                    <Route path="products" element={<AdminProducts />} />
-                    <Route path="orders" element={<AdminOrders />} />
-                    <Route path="users" element={<AdminUsers />} />
+                  <Route path="/admin" element={<AdminRoute />}>
+                    <Route element={<AdminLayout />}>
+                      <Route index element={<AdminDashboard />} />
+                      <Route path="products" element={<AdminProducts />} />
+                      <Route path="orders" element={<AdminOrders />} />
+                      <Route path="users" element={<AdminUsers />} />
+                    </Route>
                   </Route>
                 </Routes>
               </Suspense>

@@ -32,4 +32,11 @@ export const auth = {
   me: () => API.get("/auth/me"),
 };
 
+export const admin = {
+  getStats: () => API.get("/admin/stats"),
+  getProducts: () => API.get("/admin/products"),
+  getOrders: () => API.get("/admin/orders"),
+  getUsers: () => API.get("/admin/users"),
+};
+
 export default API;

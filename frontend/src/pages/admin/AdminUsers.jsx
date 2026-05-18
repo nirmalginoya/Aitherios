@@ -1,7 +1,19 @@
 import React from "react";
 import { Search, UserCog, Mail } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { admin } from "../../lib/api";
 
 const AdminUsers = () => {
+  const { data: usersData, isLoading, isError } = useQuery({
+    queryKey: ["adminUsers"],
+    queryFn: async () => {
+      const res = await admin.getUsers();
+      return res.data;
+    }
+  });
+
+  const users = usersData || [];
+
   return (
     <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
       <div>
@@ -40,38 +52,52 @@ const AdminUsers = () => {
               </tr>
             </thead>
             <tbody className="divide-y divide-[#222]">
-              {[1, 2, 3, 4, 5, 6].map((item) => (
-                <tr key={item} className="hover:bg-[#1a1a1a] transition-colors">
-                  <td className="px-4 py-4 flex items-center gap-3">
-                    <div className="w-10 h-10 bg-gradient-to-br from-gray-700 to-gray-900 rounded-full shrink-0 flex items-center justify-center font-bold text-white">
-                      U{item}
-                    </div>
-                    <div>
-                      <div className="font-medium text-white">User Name {item}</div>
-                      <div className="text-xs text-gray-500 flex items-center gap-1">
-                        <Mail size={10} />
-                        user{item}@example.com
-                      </div>
-                    </div>
-                  </td>
-                  <td className="px-4 py-4">
-                    <span className={`px-2 py-1 rounded-full text-xs font-medium border ${
-                      item === 1 
-                        ? "bg-purple-500/10 text-purple-400 border-purple-500/20" 
-                        : "bg-[#222] text-gray-300 border-[#333]"
-                    }`}>
-                      {item === 1 ? "Admin" : "Customer"}
-                    </span>
-                  </td>
-                  <td className="px-4 py-4 text-gray-400">Apr 12, 2026</td>
-                  <td className="px-4 py-4 font-medium">${(350 * item).toFixed(2)}</td>
-                  <td className="px-4 py-4 text-right">
-                    <button className="p-2 text-gray-400 hover:text-white transition-colors inline-flex">
-                      <UserCog size={18} />
-                    </button>
-                  </td>
+              {isLoading ? (
+                <tr>
+                  <td colSpan="5" className="text-center py-8 text-gray-400">Loading users...</td>
                 </tr>
-              ))}
+              ) : isError ? (
+                <tr>
+                  <td colSpan="5" className="text-center py-8 text-red-500">Failed to load users.</td>
+                </tr>
+              ) : users.length === 0 ? (
+                <tr>
+                  <td colSpan="5" className="text-center py-8 text-gray-400">No users found.</td>
+                </tr>
+              ) : (
+                users.map((item) => (
+                  <tr key={item.id} className="hover:bg-[#1a1a1a] transition-colors">
+                    <td className="px-4 py-4 flex items-center gap-3">
+                      <div className="w-10 h-10 bg-gradient-to-br from-gray-700 to-gray-900 rounded-full shrink-0 flex items-center justify-center font-bold text-white uppercase">
+                        {(item.firstName?.[0] || 'U')}
+                      </div>
+                      <div>
+                        <div className="font-medium text-white">{item.firstName} {item.lastName}</div>
+                        <div className="text-xs text-gray-500 flex items-center gap-1">
+                          <Mail size={10} />
+                          {item.email}
+                        </div>
+                      </div>
+                    </td>
+                    <td className="px-4 py-4">
+                      <span className={`px-2 py-1 rounded-full text-xs font-medium border ${
+                        item.role === "admin" 
+                          ? "bg-purple-500/10 text-purple-400 border-purple-500/20" 
+                          : "bg-[#222] text-gray-300 border-[#333]"
+                      }`}>
+                        {item.role === "admin" ? "Admin" : "Customer"}
+                      </span>
+                    </td>
+                    <td className="px-4 py-4 text-gray-400">{new Date(item.createdAt).toLocaleDateString()}</td>
+                    <td className="px-4 py-4 font-medium">${(item.totalSpent || 0).toFixed(2)}</td>
+                    <td className="px-4 py-4 text-right">
+                      <button className="p-2 text-gray-400 hover:text-white transition-colors inline-flex">
+                        <UserCog size={18} />
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>
