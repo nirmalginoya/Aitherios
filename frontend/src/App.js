@@ -9,6 +9,7 @@ import "./App.css";
 
 // E-commerce Layout
 import Layout from "./components/Layout";
+import ScrollToTop from "./components/ScrollToTop";
 
 // Admin Layout
 import AdminLayout from "./components/AdminLayout";
@@ -77,6 +78,7 @@ function App() {
           <StoreProvider>
             <Toaster position="top-right" expand={false} richColors theme="dark" />
             <BrowserRouter>
+              <ScrollToTop />
               <Suspense fallback={<PageLoader />}>
                 <Routes>
                   {/* Public Storefront Routes */}
